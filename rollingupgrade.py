@@ -88,7 +88,14 @@ def rollingupgrade(ev):
         for device in devices:
             logging.debug(device)
             logging.debug("Working on device {0} [{1}] of type {2}".format(device['name'], device['mac'], device['model']))
-            if device['version'] != config.versions[device['model']]['version']:
+
+            #Check if it's disconnected
+            if device['status'] != "connected":
+                logging.warning("Device {0} [{1}] is in {2} status, skipping...".format(device['name'], device['mac'], device['status']))
+            #Check if we know this model
+            elif device['model'] not in config.versions:
+                logging.warning("Unknown model {0}, skipping...".format(device['model']))
+            elif device['version'] != config.versions[device['model']]['version']:
                 logging.info("Updating firmware on device {0} [{1}] from version {2} to version {3}".format(device['name'], device['mac'], device['version'], config.versions[device['model']]['version']))
                 ### COMMAND FW UPDATE
                 logging.debug("Commanding FW Update...")
