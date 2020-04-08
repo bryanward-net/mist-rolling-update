@@ -6,7 +6,7 @@ Python script for performing FW updates on Mist APs, one at a time
 
 Python libraries:
 
-* [dartmist](https://github.com/bryanward-net/dartmist)
+* [dartmist](https://www.bryanward.net/dartmist)
 
 ## Environment
 
