@@ -10,7 +10,7 @@ import threading
 
 from time import sleep
 
-from dartmist import Mist, MistHelpers, MistWebsocket
+from dartmist import mist, misthelpers, mistwebsocket
 import config
 
 ####################
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     try:
         logging.info("Connecting to Mist API...")
         logging.debug("ORGID: {0}".format(ORGID))
-        conn = Mist(TOKEN, ORGID)
+        conn = mist.Mist(TOKEN, ORGID)
         ws = None
         # myself = conn.get_self()
         # logging.debug(myself)
@@ -181,7 +181,7 @@ if __name__ == '__main__':
             logging.error("Error connecting to API or no permissions for Organization.  Terminating.")
             exit(-101)
 
-        h = MistHelpers(conn)
+        h = misthelpers.MistHelpers(conn)
         logging.debug("Helpers loaded.")
 
         if config.config:
@@ -200,7 +200,7 @@ if __name__ == '__main__':
         logging.debug("Creating Websocket")
         try:
             ev = threading.Event()
-            ws = MistWebsocket(TOKEN, ev)
+            ws = mistwebsocket.MistWebsocket(TOKEN, ev)
             logging.debug("Websocket init")
         except Exception as e:
             logging.error(e)
