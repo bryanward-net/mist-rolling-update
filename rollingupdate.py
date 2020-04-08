@@ -16,14 +16,14 @@ import config
 ####################
 # Defaults
 
-# Versions to upgrade to are defined in config.py
+# Versions to update to are defined in config.py
 
 
 ####################
 # Setup
 
 parser = argparse.ArgumentParser(
-    description="Upgrade FW of Mist APs, one at a time"
+    description="Update FW of Mist APs, one at a time"
 )
 parser.add_argument(
     "--token",
@@ -38,12 +38,12 @@ parsergroup_site = parser.add_mutually_exclusive_group(required=True)
 parsergroup_site.add_argument(
     "--site",
     required=False,
-    help="Site name to upgrade"
+    help="Site name to update"
 )
 parsergroup_site.add_argument(
     "--siteid",
     required=False,
-    help="Site ID to upgrade"
+    help="Site ID to update"
 )
 parser.add_argument(
     '--delay',
@@ -89,7 +89,7 @@ else:
 ####################
 # Main
 
-def rollingupgrade(ev):
+def rollingupdate(ev):
 
     devices = []
     devices = h.get_devices_stats_in_site(SITEID)
@@ -134,7 +134,7 @@ def rollingupgrade(ev):
                         if "mac" in data and device['mac'] == data['mac']:
                             # This is the device we're looking for
                             logging.debug("This is the device we're looking for...")
-                            # Check upgrade status
+                            # Check update status
                             if "status" in data and data['status'] == "upgrading" and "upgrading" in data and data['upgrading'] == True and "progress" in data:
                                 logging.info("Update of device {0} [{1}] is in progress: {2}%".format(
                                     device['name'], device['mac'], data["progress"]))
@@ -219,8 +219,8 @@ if __name__ == '__main__':
         # Subscribe to updates for the devices
         ws.subscribe("/sites/{0}/stats/devices".format(SITEID))
 
-        rollingupgrade(ev)
-        logging.info("Rolling upgrade complete!")
+        rollingupdate(ev)
+        logging.info("Rolling update complete!")
 
         logging.debug("Shutting down websocket...")
         ws.unsubscribe("/sites/{0}/stats/devices".format(SITEID))
